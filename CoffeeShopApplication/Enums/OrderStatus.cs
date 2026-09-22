@@ -2,7 +2,7 @@
 {
     public enum OrderStatus
     {
-        OrderPlaced = 1,
+        OrderPlaced,
         WaitForVm,
         Preparing,
         S1Done,

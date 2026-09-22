@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using CoffeeShopApplication.Core.Interfaces;
 using CoffeeShopApplication.Core.Models;
 
 namespace CoffeeShopApplication.Repository
 {
-    public class OrderRepo
+    public class OrderRepo : IOrderRepo
     {
         private readonly Queue<Orders> _orders;
         private readonly List<Orders> _completedOrders;
@@ -29,7 +30,7 @@ namespace CoffeeShopApplication.Repository
             this._orders.Enqueue(order);
         }
 
-        public Orders? AssignOrder()
+        public Orders? RemoveOrder()
         {
             if (this._orders.Count == 0)
             {
@@ -37,6 +38,16 @@ namespace CoffeeShopApplication.Repository
             }
 
             return this._orders.Dequeue();
+        }
+
+        public Orders? PeekOrder()
+        {
+            if (this._orders.Count == 0)
+            {
+                return null;
+            }
+
+            return this._orders.Peek();
         }
 
         public void CompleteOrder(Orders order)

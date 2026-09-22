@@ -11,7 +11,9 @@ namespace CoffeeShopApplication.Core.Interfaces
 
         public void PlaceOrder(Orders order);
 
-        public Orders? AssignOrder();
+        public Orders? RemoveOrder();
+
+        public Orders? PeekOrder();
 
         public void CompleteOrder(Orders order);
 

@@ -1,13 +1,14 @@
-﻿using CoffeeShopApplication.Core.Models;
+﻿using CoffeeShopApplication.Core.Interfaces;
+using CoffeeShopApplication.Core.Models;
 using CoffeeShopApplication.Repository;
 
 namespace CoffeeShopApplication.Service
 {
-    public class ProductsService
+    public class ProductsService : IProductService
     {
-        private readonly ProductsRepo _productsRepo;
+        private readonly IProductRepo _productsRepo;
 
-        public ProductsService(ProductsRepo productsRepo)
+        public ProductsService(IProductRepo productsRepo)
         {
             this._productsRepo = productsRepo;
         }

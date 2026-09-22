@@ -1,8 +1,9 @@
-﻿using CoffeeShopApplication.Core.Models;
+﻿using CoffeeShopApplication.Core.Interfaces;
+using CoffeeShopApplication.Core.Models;
 
 namespace CoffeeShopApplication.Repository
 {
-    public class VendingMachineRepo
+    public class VendingMachineRepo : IVendingMachineRepo
     {
         private readonly List<VendingMachine> _vendingMachines;
 

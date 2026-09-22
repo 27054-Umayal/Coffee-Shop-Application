@@ -1,8 +1,9 @@
-﻿using CoffeeShopApplication.Core.Models;
+﻿using CoffeeShopApplication.Core.Interfaces;
+using CoffeeShopApplication.Core.Models;
 
 namespace CoffeeShopApplication.Repository
 {
-    public class ProductsRepo
+    public class ProductsRepo : IProductRepo
     {
         private readonly List<Product> _products;
 

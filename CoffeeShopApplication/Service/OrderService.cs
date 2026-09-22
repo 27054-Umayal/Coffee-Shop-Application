@@ -1,13 +1,14 @@
-﻿using CoffeeShopApplication.Core.Models;
+﻿using CoffeeShopApplication.Core.Interfaces;
+using CoffeeShopApplication.Core.Models;
 using CoffeeShopApplication.Repository;
 
 namespace CoffeeShopApplication.Service
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
-        private readonly OrderRepo _orderRepo;
+        private readonly IOrderRepo _orderRepo;
 
-        public OrderService(OrderRepo orderRepo)
+        public OrderService(IOrderRepo orderRepo)
         {
             this._orderRepo = orderRepo;
         }
@@ -33,9 +34,14 @@ namespace CoffeeShopApplication.Service
             this._orderRepo.PlaceOrder(order);
         }
 
-        public Orders? AssignOrder()
+        public Orders? RemoveOrder()
         {
-            return this._orderRepo.AssignOrder();
+            return this._orderRepo.RemoveOrder();
+        }
+
+        public Orders? PeekOrder()
+        {
+            return this._orderRepo.PeekOrder();
         }
 
         public void UpdateOrderStatus(Orders order, OrderStatus orderStatus)

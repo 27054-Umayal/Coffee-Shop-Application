@@ -1,6 +1,5 @@
 ﻿using CoffeeShopApplication.Core.Models;
 using CoffeeShopApplication.Enums;
-using CoffeeShopApplication.Repository;
 
 namespace CoffeeShopApplication.Core.Interfaces
 {
@@ -14,7 +13,9 @@ namespace CoffeeShopApplication.Core.Interfaces
 
         public void PlaceOrder(Orders order);
 
-        public Orders? AssignOrder();
+        public Orders? RemoveOrder();
+
+        public Orders? PeekOrder();
 
         public void UpdateOrderStatus(Orders order, OrderStatus orderStatus);
 
