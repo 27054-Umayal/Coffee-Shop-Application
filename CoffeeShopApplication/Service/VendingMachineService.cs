@@ -1,19 +1,25 @@
 ﻿using CoffeeShopApplication.Core.Models;
+using CoffeeShopApplication.Repository;
 
 namespace CoffeeShopApplication.Service
 {
     public class VendingMachineService
     {
-        public VendingMachineService()
-        {
+        private VendingMachineRepo _vendingMachineRepo;
 
+        public VendingMachineService(VendingMachineRepo vendingMachineRepo)
+        {
+            this._vendingMachineRepo = vendingMachineRepo;
         }
 
-        public bool CheckIfVendingMachineBusy(int vmId)
+        public bool AssignVendingMachine(int orderId)
         {
-            VendingMachine vendingMachine = this._vendingMachineRepo.GetVendingMachines();
-            VendingMachine vendingMachineId = this._vendingMachines.FirstOrDefault(vendingMachineId => vendingMachineId.VmId == vmId);
-            return vendingMachineId.IsBusy == true;
+            return this._vendingMachineRepo.AssignVendingMachine(orderId);
+        }
+
+        public void ReleaseVendingMachine(int orderId)
+        {
+            this._vendingMachineRepo.ReleaseVendingMachine(orderId);
         }
     }
 }

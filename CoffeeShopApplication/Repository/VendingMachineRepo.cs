@@ -11,7 +11,7 @@ namespace CoffeeShopApplication.Repository
             this._vendingMachines = new List<VendingMachine>();
         }
 
-        public IReadOnlyList GetVendingMachines()
+        public IReadOnlyList<VendingMachine> GetVendingMachines()
         {
             return this._vendingMachines;
         }

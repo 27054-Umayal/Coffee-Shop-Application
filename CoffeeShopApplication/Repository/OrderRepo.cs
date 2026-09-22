@@ -1,4 +1,5 @@
-﻿using CoffeeShopApplication.Core.Models;
+﻿using System.Collections.Generic;
+using CoffeeShopApplication.Core.Models;
 
 namespace CoffeeShopApplication.Repository
 {
@@ -13,9 +14,14 @@ namespace CoffeeShopApplication.Repository
             this._completedOrders = new List<Orders>();
         }
 
-        public IReadOnlyList GetOrders()
+        public IReadOnlyList<Orders> GetProcessingOrders()
         {
             return this._orders.ToList();
+        }
+
+        public IReadOnlyList<Orders> GetCompletedOrders()
+        {
+            return this._completedOrders;
         }
 
         public void PlaceOrder(Orders order)

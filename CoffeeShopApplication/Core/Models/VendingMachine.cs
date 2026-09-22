@@ -6,7 +6,7 @@
 
         public string VMName { get; set; }
 
-        public int OrderIdAssigned { get; set; }
+        public int? OrderIdAssigned { get; set; }
 
         public bool IsBusy { get; set; }
     }
