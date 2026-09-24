@@ -14,7 +14,7 @@ namespace CoffeeShopApplication.Core.Interfaces
 
         event OrderTimerChangedHandler? OrderTimerChanged;
 
-        public IReadOnlyList<Orders> GetCompletedOrders();
+        public IReadOnlyList<Orders> GetOrderHistory();
 
         public IReadOnlyList<Orders> GetWaitingOrders();
 

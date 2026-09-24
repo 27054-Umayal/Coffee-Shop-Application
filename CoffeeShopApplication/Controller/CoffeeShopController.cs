@@ -66,8 +66,8 @@ namespace CoffeeShopApplication.Controller
                     case MainMenu.ViewWaitingForVMOrder:
                         this.ViewWaitingForVMOrders();
                         break;
-                    case MainMenu.ViewCompletedOrders:
-                        this.ViewCompletedOrders();
+                    case MainMenu.ViewOrderHistory:
+                        this.ViewOrderHistory();
                         break;
                 }
             }
@@ -220,21 +220,22 @@ namespace CoffeeShopApplication.Controller
             ApplicationConsole.DisplayOrders(waitingOrders);
         }
 
-        private void ViewCompletedOrders()
+        private void ViewOrderHistory()
         {
-            IReadOnlyList<Orders> completedOrders = this._orderService.GetCompletedOrders();
-            if (completedOrders.Count == 0)
+            IReadOnlyList<Orders> orderHistory = this._orderService.GetOrderHistory();
+            if (orderHistory.Count == 0)
             {
-                ApplicationConsole.DisplayMessage("No active orders...");
+                ApplicationConsole.DisplayMessage("No orders in history...");
                 return;
             }
 
-            ApplicationConsole.DisplayOrders(completedOrders);
+            ApplicationConsole.DisplayOrders(orderHistory);
         }
 
         private void DisplayOrderStatus(string message)
         {
             ApplicationConsole.DisplayMessage(message);
         }
+
     }
 }

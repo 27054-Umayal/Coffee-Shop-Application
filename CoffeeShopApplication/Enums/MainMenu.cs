@@ -10,7 +10,7 @@
 
         ViewWaitingForVMOrder,
 
-        ViewCompletedOrders,
+        ViewOrderHistory,
 
         Exit,
     }

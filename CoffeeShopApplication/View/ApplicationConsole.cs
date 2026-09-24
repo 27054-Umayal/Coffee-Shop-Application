@@ -26,10 +26,18 @@ namespace CoffeeShopApplication.View
 
         public static void DisplayOrders(IReadOnlyList<Orders> orders)
         {
+            Console.WriteLine(
+                $"{"No",-5} {"Order Id",-10} {"ProductId",-10} {"Status",-10}");
+
+            Console.WriteLine(new string('-', 40));
+
             for (int i = 0; i < orders.Count; i++)
             {
-                ApplicationConsole.DisplayMessage(
-                    $"{i + 1}. Order ID: {orders[i].OrderId} ProductId: {orders[i].ProductId}");
+                Console.WriteLine(
+                    $"{i + 1,-5} " +
+                    $"{orders[i].OrderId.ToString()[..8],-10}" +
+                    $"{orders[i].ProductId.ToString()[..8],-10} " +
+                    $"{orders[i].OrderStatus,-10}");
             }
         }
     }

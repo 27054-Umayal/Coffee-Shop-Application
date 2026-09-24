@@ -7,7 +7,7 @@ namespace CoffeeShopApplication.Core.Interfaces
     {
         public IReadOnlyList<Orders> GetWaitingOrders();
 
-        public IReadOnlyList<Orders> GetCompletedOrders();
+        public IReadOnlyList<Orders> GetOrderHistory();
 
         public IReadOnlyList<Orders> GetActiveOrders();
 

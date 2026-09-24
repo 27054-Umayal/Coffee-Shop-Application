@@ -24,9 +24,9 @@ namespace CoffeeShopApplication.Repository
             return this._waitingOrders.ToList();
         }
 
-        public IReadOnlyList<Orders> GetCompletedOrders()
+        public IReadOnlyList<Orders> GetOrderHistory()
         {
-            return this._orderHistory.Where(o => o.OrderStatus == OrderStatus.Completed).ToList();
+            return this._orderHistory;
         }
 
         public IReadOnlyList<Orders> GetActiveOrders()

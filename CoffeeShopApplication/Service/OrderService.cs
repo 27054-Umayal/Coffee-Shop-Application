@@ -17,9 +17,9 @@ namespace CoffeeShopApplication.Service
             this._orderRepo = orderRepo;
         }
 
-        public IReadOnlyList<Orders> GetCompletedOrders()
+        public IReadOnlyList<Orders> GetOrderHistory()
         {
-            return this._orderRepo.GetCompletedOrders();
+            return this._orderRepo.GetOrderHistory();
         }
 
         public IReadOnlyList<Orders> GetWaitingOrders()
@@ -135,9 +135,8 @@ namespace CoffeeShopApplication.Service
                 }
 
                 this.OrderTimerChanged?.Invoke($"Order:{order.OrderId}:Stage:{stage}-{remTime}s remaining");
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
-
-            await Task.Delay(TimeSpan.FromSeconds(1));
         }
 
         public bool IsValidOrder(Guid orderId)
