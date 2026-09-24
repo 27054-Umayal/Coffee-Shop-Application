@@ -65,21 +65,21 @@ namespace CoffeeShopApplication.Service
             this.UpdateOrderStatus(order, OrderStatus.Preparing);
             if (order.IsCancellationRequested())
             {
-                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                this.CancelOrder(order);
                 return;
             }
 
             await this.StageAsync(1, order);
             if (order.IsCancellationRequested())
             {
-                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                this.CancelOrder(order);
                 return;
             }
 
             await this.StageAsync(2, order);
             if (order.IsCancellationRequested())
             {
-                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                this.CancelOrder(order);
                 return;
             }
 
@@ -90,14 +90,14 @@ namespace CoffeeShopApplication.Service
             await Task.WhenAll(stage3, stage4);
             if (order.IsCancellationRequested())
             {
-                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                this.CancelOrder(order);
                 return;
             }
 
             await this.StageAsync(5, order);
             if (order.IsCancellationRequested())
             {
-                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                this.CancelOrder(order);
                 return;
             }
 
@@ -130,6 +130,7 @@ namespace CoffeeShopApplication.Service
             {
                 if (order.IsCancellationRequested())
                 {
+                    this.CancelOrder(order);
                     return;
                 }
 
@@ -143,6 +144,12 @@ namespace CoffeeShopApplication.Service
         {
             IReadOnlyList<Orders> orders = this._orderRepo.GetWaitingOrders();
             return orders.FirstOrDefault(o => o.OrderId == orderId) != null;
+        }
+
+        public void CancelOrder(Orders order)
+        {
+            this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+            this._orderRepo.CancelOrder(order);
         }
     }
 }

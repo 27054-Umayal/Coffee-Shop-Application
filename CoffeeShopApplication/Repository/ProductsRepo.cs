@@ -1,4 +1,5 @@
-﻿using CoffeeShopApplication.Core.Interfaces;
+﻿using CoffeeShopApplication.Constants;
+using CoffeeShopApplication.Core.Interfaces;
 using CoffeeShopApplication.Core.Models;
 
 namespace CoffeeShopApplication.Repository
@@ -9,19 +10,27 @@ namespace CoffeeShopApplication.Repository
 
         public ProductsRepo()
         {
-            this._products = new List<Product>
+            if (File.Exists(FileConstants.ProductFile))
             {
-                new Product { ProductId = Guid.NewGuid(), ProductName = "Coffee", ProductPreparationTime = 2 },
-                new Product { ProductId = Guid.NewGuid(), ProductName = "Tea", ProductPreparationTime = 2 },
-                new Product { ProductId = Guid.NewGuid(), ProductName = "Biscuit", ProductPreparationTime = 2 },
-                new Product { ProductId = Guid.NewGuid(), ProductName = "Milk", ProductPreparationTime = 2 },
-                new Product { ProductId = Guid.NewGuid(), ProductName = "Bread", ProductPreparationTime = 2 },
-            };
+                this._products = FileOperation<Product>.ReadFromFile(FileConstants.ProductFile);
+            }
+            else
+            {
+                this._products = new List<Product>
+                {
+                    new Product { ProductId = Guid.NewGuid(), ProductName = "Coffee", ProductPreparationTime = 2 },
+                    new Product { ProductId = Guid.NewGuid(), ProductName = "Tea", ProductPreparationTime = 2 },
+                    new Product { ProductId = Guid.NewGuid(), ProductName = "Biscuit", ProductPreparationTime = 2 },
+                    new Product { ProductId = Guid.NewGuid(), ProductName = "Milk", ProductPreparationTime = 2 },
+                    new Product { ProductId = Guid.NewGuid(), ProductName = "Bread", ProductPreparationTime = 2 },
+                };
+                FileOperation<Product>.WriteToFile(this._products, FileConstants.ProductFile);
+            }
         }
 
         public IReadOnlyList<Product> GetProducts()
         {
-            return this._products;
+            return FileOperation<Product>.ReadFromFile(FileConstants.ProductFile);
         }
     }
 }

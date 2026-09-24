@@ -20,5 +20,7 @@ namespace CoffeeShopApplication.Core.Interfaces
         public void CompleteOrder(Orders order);
 
         public void UpdateOrderStatus(Orders order, OrderStatus orderStatus);
+
+        public void CancelOrder(Orders order);
     }
 }
