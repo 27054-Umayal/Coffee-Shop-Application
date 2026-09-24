@@ -7,7 +7,7 @@ namespace Assignments
 {
     public class Program
     {
-        public static void Main()
+        public static async Task Main()
         {
             IOrderRepo orderRepo = new OrderRepo();
             IProductRepo productRepo = new ProductsRepo();
@@ -15,8 +15,8 @@ namespace Assignments
             IOrderService orderService = new OrderService(orderRepo);
             IProductService productService = new ProductsService(productRepo);
             IVendingMachineService vendingMachineService = new VendingMachineService(vendingMachineRepo);
-
             CoffeeShopController coffeeShopController = new CoffeeShopController(orderService, productService, vendingMachineService);
+            await coffeeShopController.RunMainMenu();
         }
     }
 }

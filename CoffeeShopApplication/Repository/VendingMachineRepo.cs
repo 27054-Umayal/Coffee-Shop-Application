@@ -9,7 +9,12 @@ namespace CoffeeShopApplication.Repository
 
         public VendingMachineRepo()
         {
-            this._vendingMachines = new List<VendingMachine>();
+            this._vendingMachines = new List<VendingMachine>
+            {
+                new VendingMachine { VMid = Guid.NewGuid(), VMName = "VM1", OrderIdAssigned = null, IsBusy = false },
+                new VendingMachine { VMid = Guid.NewGuid(), VMName = "VM2", OrderIdAssigned = null, IsBusy = false },
+                new VendingMachine { VMid = Guid.NewGuid(), VMName = "VM3", OrderIdAssigned = null, IsBusy = false },
+            };
         }
 
         public IReadOnlyList<VendingMachine> GetVendingMachines()
@@ -17,7 +22,7 @@ namespace CoffeeShopApplication.Repository
             return this._vendingMachines;
         }
 
-        public bool AssignVendingMachine(int orderId)
+        public bool AssignVendingMachine(Guid orderId)
         {
             for (int i = 0; i < this._vendingMachines.Count; i++)
             {
@@ -32,7 +37,7 @@ namespace CoffeeShopApplication.Repository
             return false;
         }
 
-        public void ReleaseVendingMachine(int orderId)
+        public void ReleaseVendingMachine(Guid orderId)
         {
             foreach (VendingMachine vendingMachine in this._vendingMachines)
             {

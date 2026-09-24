@@ -2,10 +2,8 @@
 
 namespace CoffeeShopApplication.Core.Interfaces
 {
-    public class IProductRepo
+    public interface IProductRepo
     {
         public IReadOnlyList<Product> GetProducts();
-
-        public Product? GetProduct(int productId);
     }
 }

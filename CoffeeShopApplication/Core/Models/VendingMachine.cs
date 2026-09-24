@@ -2,11 +2,11 @@
 {
     public class VendingMachine
     {
-        public int VMid { get; set; }
+        public Guid VMid { get; set; }
 
         public string VMName { get; set; }
 
-        public int? OrderIdAssigned { get; set; }
+        public Guid? OrderIdAssigned { get; set; }
 
         public bool IsBusy { get; set; }
     }

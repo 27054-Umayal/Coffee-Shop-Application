@@ -3,11 +3,13 @@ using CoffeeShopApplication.Enums;
 
 namespace CoffeeShopApplication.Core.Interfaces
 {
-    public class IOrderRepo
+    public interface IOrderRepo
     {
-        public IReadOnlyList<Orders> GetProcessingOrders();
+        public IReadOnlyList<Orders> GetWaitingOrders();
 
         public IReadOnlyList<Orders> GetCompletedOrders();
+
+        public IReadOnlyList<Orders> GetActiveOrders();
 
         public void PlaceOrder(Orders order);
 

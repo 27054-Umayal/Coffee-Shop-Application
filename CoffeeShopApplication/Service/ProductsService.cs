@@ -17,15 +17,5 @@ namespace CoffeeShopApplication.Service
         {
             return this._productsRepo.GetProducts();
         }
-
-        public Product? GetProduct(int productId)
-        {
-            return this._productsRepo.GetProduct(productId);
-        }
-
-        public bool IsValidProduct(int productId)
-        {
-            return this._productsRepo.GetProduct(productId) != null;
-        }
     }
 }

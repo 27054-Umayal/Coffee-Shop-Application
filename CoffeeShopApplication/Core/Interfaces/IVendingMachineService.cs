@@ -1,11 +1,9 @@
-﻿using CoffeeShopApplication.Repository;
-
-namespace CoffeeShopApplication.Core.Interfaces
+﻿namespace CoffeeShopApplication.Core.Interfaces
 {
-    public class IVendingMachineService
+    public interface IVendingMachineService
     {
-        public bool AssignVendingMachine(int orderId);
+        public bool AssignVendingMachine(Guid orderId);
 
-        public void ReleaseVendingMachine(int orderId);
+        public void ReleaseVendingMachine(Guid orderId);
     }
 }

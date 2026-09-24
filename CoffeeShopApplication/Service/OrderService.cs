@@ -1,12 +1,16 @@
 ﻿using CoffeeShopApplication.Core.Interfaces;
 using CoffeeShopApplication.Core.Models;
-using CoffeeShopApplication.Repository;
+using CoffeeShopApplication.Enums;
 
 namespace CoffeeShopApplication.Service
 {
     public class OrderService : IOrderService
     {
         private readonly IOrderRepo _orderRepo;
+
+        public event OrderStatusChangedHandler? OrderStatusChanged;
+
+        public event OrderTimerChangedHandler? OrderTimerChanged;
 
         public OrderService(IOrderRepo orderRepo)
         {
@@ -15,23 +19,23 @@ namespace CoffeeShopApplication.Service
 
         public IReadOnlyList<Orders> GetCompletedOrders()
         {
-            return this._orderRepo.GetOrders();
+            return this._orderRepo.GetCompletedOrders();
         }
 
-        public IReadOnlyList<Orders> GetProcessingOrders()
+        public IReadOnlyList<Orders> GetWaitingOrders()
         {
-            return this._orderRepo.GetProcessingOrders();
+            return this._orderRepo.GetWaitingOrders();
         }
 
-        public bool IsValidOrder(int orderId)
+        public IReadOnlyList<Orders> GetActiveOrders()
         {
-            IReadOnlyList<Orders> orders = this.GetProcessingOrders();
-            return orderId > 0 && orderId <= orders.Count;
+            return this._orderRepo.GetActiveOrders();
         }
 
         public void PlaceOrder(Orders order)
         {
             this._orderRepo.PlaceOrder(order);
+            this.UpdateOrderStatus(order, OrderStatus.OrderPlaced);
         }
 
         public Orders? RemoveOrder()
@@ -47,6 +51,8 @@ namespace CoffeeShopApplication.Service
         public void UpdateOrderStatus(Orders order, OrderStatus orderStatus)
         {
             this._orderRepo.UpdateOrderStatus(order, orderStatus);
+            this.OrderStatusChanged?.Invoke(
+        $"Order {order.OrderId}: {orderStatus}");
         }
 
         public void CompleteOrder(Orders order)
@@ -56,19 +62,56 @@ namespace CoffeeShopApplication.Service
 
         public async Task PrepareOrderAsync(Orders order)
         {
-            this._orderRepo.UpdateOrderStatus(order, OrderStatus.Preparing);
+            this.UpdateOrderStatus(order, OrderStatus.Preparing);
+            if (order.IsCancellationRequested())
+            {
+                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                return;
+            }
+
             await this.StageAsync(1, order);
+            if (order.IsCancellationRequested())
+            {
+                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                return;
+            }
+
             await this.StageAsync(2, order);
+            if (order.IsCancellationRequested())
+            {
+                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                return;
+            }
+
             Task stage3 = this.StageAsync(3, order);
+
             Task stage4 = this.StageAsync(4, order);
+
             await Task.WhenAll(stage3, stage4);
+            if (order.IsCancellationRequested())
+            {
+                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                return;
+            }
+
             await this.StageAsync(5, order);
-            this._orderRepo.UpdateOrderStatus(order, OrderStatus.Completed);
+            if (order.IsCancellationRequested())
+            {
+                this.UpdateOrderStatus(order, OrderStatus.Cancelled);
+                return;
+            }
+
+            this.UpdateOrderStatus(order, OrderStatus.Completed);
         }
 
         public async Task StageAsync(int stage, Orders order)
         {
-            await Task.Delay(TimeSpan.FromSeconds(30));
+            await this.RunTimerAsync(3, stage, order);
+            if (order.IsCancellationRequested())
+            {
+                return;
+            }
+
             OrderStatus status = stage switch
             {
                 1 => OrderStatus.S1Done,
@@ -78,7 +121,28 @@ namespace CoffeeShopApplication.Service
                 5 => OrderStatus.S5Done,
                 _ => throw new ArgumentOutOfRangeException(nameof(stage))
             };
-            this._orderRepo.UpdateOrderStatus(order, status);
+            this.UpdateOrderStatus(order, status);
+        }
+
+        private async Task RunTimerAsync(int seconds, int stage, Orders order)
+        {
+            for (int remTime = seconds; remTime > 0; remTime--)
+            {
+                if (order.IsCancellationRequested())
+                {
+                    return;
+                }
+
+                this.OrderTimerChanged?.Invoke($"Order:{order.OrderId}:Stage:{stage}-{remTime}s remaining");
+            }
+
+            await Task.Delay(TimeSpan.FromSeconds(1));
+        }
+
+        public bool IsValidOrder(Guid orderId)
+        {
+            IReadOnlyList<Orders> orders = this._orderRepo.GetWaitingOrders();
+            return orders.FirstOrDefault(o => o.OrderId == orderId) != null;
         }
     }
 }

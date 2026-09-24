@@ -2,7 +2,7 @@
 {
     public class Product
     {
-        public int ProductId { get; init; }
+        public Guid ProductId { get; init; }
 
         public string ProductName { get; init; }
 

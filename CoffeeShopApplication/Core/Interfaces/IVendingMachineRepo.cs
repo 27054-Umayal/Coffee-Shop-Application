@@ -2,12 +2,12 @@
 
 namespace CoffeeShopApplication.Core.Interfaces
 {
-    public class IVendingMachineRepo
+    public interface IVendingMachineRepo
     {
         public IReadOnlyList<VendingMachine> GetVendingMachines();
 
-        public bool AssignVendingMachine(int orderId);
+        public bool AssignVendingMachine(Guid orderId);
 
-        public void ReleaseVendingMachine(int orderId);
+        public void ReleaseVendingMachine(Guid orderId);
     }
 }

@@ -13,12 +13,12 @@ namespace CoffeeShopApplication.Service
             this._vendingMachineRepo = vendingMachineRepo;
         }
 
-        public bool AssignVendingMachine(int orderId)
+        public bool AssignVendingMachine(Guid orderId)
         {
             return this._vendingMachineRepo.AssignVendingMachine(orderId);
         }
 
-        public void ReleaseVendingMachine(int orderId)
+        public void ReleaseVendingMachine(Guid orderId)
         {
             this._vendingMachineRepo.ReleaseVendingMachine(orderId);
         }
